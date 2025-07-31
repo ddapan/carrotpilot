@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=gnome-terminal -e "bash -c 'OPENPILOT_ROOT/launch_carrot2_v7_byd.sh;$SHELL'"
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[zh_CN]=carrot2-v7
+Name=carrot2-v7
+Comment[zh_CN]=
+Comment=

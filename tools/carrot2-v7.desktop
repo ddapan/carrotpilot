@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=carrot2-v7
+GenericName=carrot2-v7
+Comment=openpilot is an operating system for robotics
+Exec=gnome-terminal -e "bash -c 'OPENPILOT_ROOT/launch_carrot2_v7_byd.sh;$SHELL'"
+Terminal=false
+Type=Application
+Icon=OPENPILOT_ROOT/selfdrive/assets/img_chffr_wheel.png
