@@ -254,6 +254,7 @@ void CameraState::sendState() {
   pm->send(camera.cc.publish_name, msg);
 }
 
+#ifdef QCOM2
 void camerad_thread() {
   // TODO: centralize enabled handling
 
@@ -321,3 +322,4 @@ void camerad_thread() {
     }
   }
 }
+#endif
