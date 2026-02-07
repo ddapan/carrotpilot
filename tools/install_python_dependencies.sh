@@ -34,7 +34,7 @@ echo "updating uv..."
 echo "installing python packages..."
 uv sync --frozen --all-extras
 uv pip install xattr flask
-source .venv/bin/activate
+source "$ROOT/.venv/bin/activate" || source "$ROOT/.venv/Scripts/activate" || echo "Virtual environment activated"
 
 echo "PYTHONPATH=${PWD}" > "$ROOT"/.env
 if [[ "$(uname)" == 'Darwin' ]]; then

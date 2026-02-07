@@ -14,11 +14,20 @@ fi
 
 cd $DIR
 if [ ! -d libyuv ]; then
-  git clone --single-branch https://chromium.googlesource.com/libyuv/libyuv
+  # 使用本地仓库而不是从远程 clone
+  LOCAL_LIBYUV="/home/ddapan/下载/libyuv-refs_heads_main"
+  if [ -d "$LOCAL_LIBYUV" ]; then
+    echo "使用本地 libyuv 仓库: $LOCAL_LIBYUV"
+    cp -r "$LOCAL_LIBYUV" libyuv
+  else
+    echo "错误: 本地 libyuv 仓库不存在: $LOCAL_LIBYUV"
+    exit 1
+  fi
 fi
 
 cd libyuv
-git checkout 917276084a49be726c90292ff0a6b0a3d571a6af
+# 本地仓库可能没有 git，跳过 checkout
+# git checkout 917276084a49be726c90292ff0a6b0a3d571a6af
 
 # build
 cmake .
