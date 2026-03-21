@@ -7,8 +7,7 @@ import numpy as np
 #from openpilot.common.time_helpers import system_time_valid
 #from openpilot.common.swaglog import cloudlog
 
-from opendbc.can.can_define import CANDefine
-from opendbc.can.parser import CANParser
+from opendbc.can.parser import CANDefine, CANParser
 
 from opendbc.car.common.conversions import Conversions as CV
 #from opendbc.car.common.numpy_fast import mean
@@ -69,6 +68,7 @@ class CarState(CarStateBase):
         self.prev_steeringAngleDeg = 0
         #self.steeringRate = 0.0
         self.steeringRateDegAbs = 0
+        self.esp_lkas_CruiseActivated = False
 
 
 
@@ -79,6 +79,7 @@ class CarState(CarStateBase):
         ret = structs.CarState()
 
         self.lkas_prepared = cp.vl["ACC_EPS_STATE"]["LKAS_Prepared"]
+        self.esp_lkas_CruiseActivated = cp.vl["ACC_EPS_STATE"]["CruiseActivated"]
 
         self.mpc_lkas_config = int(cp_cam.vl["ACC_MPC_STATE"]["LKAS_Config"])
         lkas_config_isAccOn = (self.mpc_lkas_config != LKASConfig.DISABLE)
@@ -147,10 +148,11 @@ class CarState(CarStateBase):
 
         ret.steeringTorque = cp.vl["ACC_EPS_STATE"]["SteerDriverTorque"]
         ret.steeringTorqueEps = cp.vl["ACC_EPS_STATE"]["MainTorque"]
-        self.eps_warning = bool(cp.vl["ACC_EPS_STATE"]["SteerWarning"]) #Todo: some firmware have SteerWarning field asserted.
+        # Align with v9: treat EPS warning as LKAS prepared + cruise activated
+        self.eps_warning = bool(cp.vl["ACC_EPS_STATE"]["LKAS_Prepared"]) and bool(cp.vl["ACC_EPS_STATE"]["CruiseActivated"])
         self.eps_state_counter = int(cp.vl["ACC_EPS_STATE"]["Counter"])
 
-        ret.steeringPressed = self.update_steering_pressed(abs(ret.steeringTorque) > 59, 5)
+        ret.steeringPressed = self.update_steering_pressed(abs(ret.steeringTorque) > 48, 3)
 
         ret.parkingBrake = (cp.vl["EPB"]["EPB_ActiveFlag"] == 1)
 

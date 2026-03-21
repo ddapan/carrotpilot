@@ -138,7 +138,6 @@ static bool byd_tx_hook(const CANPacket_t *to_send) {
     }
 
   }
-
   return tx;
 }
 

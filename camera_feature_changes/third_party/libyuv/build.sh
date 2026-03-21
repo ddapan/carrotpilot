@@ -14,8 +14,7 @@ fi
 
 cd $DIR
 if [ ! -d libyuv ]; then
-  #git clone --single-branch https://chromium.googlesource.com/libyuv/libyuv
-  git -c http.proxy=http://192.168.3.7:7892 -c https.proxy=http://192.168.3.7:7892 clone --single-branch https://chromium.googlesource.com/libyuv/libyuv
+  git clone --single-branch https://chromium.googlesource.com/libyuv/libyuv
 fi
 
 cd libyuv
